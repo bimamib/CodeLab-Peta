@@ -26,10 +26,12 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.bima.mygooglemaps.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    private val boundsBuilder = LatLngBounds.builder()
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
 
@@ -119,6 +121,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         tourismPlace.forEach { tourism ->
             val latLng = LatLng(tourism.latitude, tourism.longitude)
             mMap.addMarker(MarkerOptions().position(latLng).title(tourism.name))
+            boundsBuilder.include(latLng)
+
+            val bounds: LatLngBounds = boundsBuilder.build()
+            mMap.animateCamera(
+                CameraUpdateFactory.newLatLngBounds(
+                    bounds,
+                    resources.displayMetrics.widthPixels,
+                    resources.displayMetrics.heightPixels,
+                    300
+                )
+            )
         }
     }
 
