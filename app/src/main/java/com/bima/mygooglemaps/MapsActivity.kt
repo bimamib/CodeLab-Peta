@@ -80,6 +80,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     .icon(vectorToBitmap(R.drawable.ic_android, Color.parseColor("#3DDC84")))
             )
         }
+
+        mMap.setOnPoiClickListener { pointOfInterest ->
+            val poiMarker = mMap.addMarker(
+                MarkerOptions()
+                    .position(pointOfInterest.latLng)
+                    .title(pointOfInterest.name)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+            )
+            poiMarker?.showInfoWindow()
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
