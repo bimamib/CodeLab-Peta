@@ -2,6 +2,7 @@ package com.bima.mygooglemaps
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -69,6 +70,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 .snippet("Batik Kumeli No.50")
         )
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dicodingSpace, 15f))
+
+        mMap.setOnMapLongClickListener { latLng ->
+            mMap.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .title("New Marker")
+                    .snippet("Lat: ${latLng.latitude} Long: ${latLng.longitude}")
+                    .icon(vectorToBitmap(R.drawable.ic_android, Color.parseColor("#3DDC84")))
+            )
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
